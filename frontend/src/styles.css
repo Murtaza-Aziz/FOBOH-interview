@@ -1,0 +1,204 @@
+/* ── Variables ─────────────────────────────────────────────────────────────── */
+:root {
+  --bg:      #f1f3f5;
+  --surface: #ffffff;
+  --border:  #dee2e6;
+  --text:    #212529;
+  --muted:   #6c757d;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --danger:  #dc2626;
+  --danger-dark: #b91c1c;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --radius:  6px;
+  --shadow:  0 1px 3px rgba(0,0,0,.08);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font: 14px/1.6 system-ui, -apple-system, sans-serif; color: var(--text); background: var(--bg); }
+a { color: var(--primary); text-decoration: none; }
+
+/* ── Layout ────────────────────────────────────────────────────────────────── */
+.app        { display: flex; flex-direction: column; min-height: 100vh; }
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  box-shadow: var(--shadow);
+}
+.app-title  { font-size: 1rem; font-weight: 700; color: var(--primary); cursor: pointer; }
+.breadcrumb { color: var(--muted); font-size: .9rem; }
+
+main { flex: 1; max-width: 1100px; width: 100%; margin: 0 auto; padding: 1.5rem; }
+
+/* ── Card ──────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.card h2 { font-size: .95rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+
+/* ── Page header ───────────────────────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.page-header h1 { font-size: 1.25rem; font-weight: 700; }
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .42rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: .85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+.btn:hover:not(:disabled) { background: var(--bg); border-color: #adb5bd; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); }
+
+.btn-danger  { background: var(--danger); color: #fff; border-color: var(--danger); }
+.btn-danger:hover:not(:disabled)  { background: var(--danger-dark); border-color: var(--danger-dark); }
+
+.btn-sm { padding: .28rem .6rem; font-size: .8rem; }
+
+/* ── Forms ─────────────────────────────────────────────────────────────────── */
+.form-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.form-group { display: flex; flex-direction: column; gap: .35rem; min-width: 160px; }
+.form-group--narrow { max-width: 90px; }
+.form-group label { font-size: .8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+input[type="text"], input[type="number"], input[type="search"], select, textarea {
+  width: 100%;
+  padding: .42rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: .875rem;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+input[type="checkbox"] { width: auto; cursor: pointer; accent-color: var(--primary); }
+
+.radio-group { display: flex; flex-direction: column; gap: .4rem; margin-top: .1rem; }
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  cursor: pointer;
+  padding: .3rem .5rem;
+  border-radius: var(--radius);
+}
+.radio-label:hover { background: var(--bg); }
+.radio-label input[type="radio"] { accent-color: var(--primary); cursor: pointer; }
+
+/* ── Filters row ───────────────────────────────────────────────────────────── */
+.filters { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.filters input { min-width: 140px; flex: 1; }
+
+/* ── Tables ────────────────────────────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+thead th {
+  text-align: left;
+  padding: .55rem .75rem;
+  background: var(--bg);
+  border-bottom: 2px solid var(--border);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+tbody td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #f8f9ff; }
+tbody tr.row-selected { background: #eff6ff; }
+tbody tr.row-selected:hover { background: #dbeafe; }
+
+td.col-check, th.col-check { width: 36px; padding-left: .75rem; }
+td.col-price { text-align: right; font-variant-numeric: tabular-nums; }
+td.col-sku   { font-family: monospace; font-size: .8rem; color: var(--muted); }
+td.col-actions { width: 120px; white-space: nowrap; }
+td.col-actions .btn + .btn { margin-left: .35rem; }
+
+.empty-row td { text-align: center; color: var(--muted); padding: 2rem; font-style: italic; }
+
+/* ── Price colours ─────────────────────────────────────────────────────────── */
+.price-down { color: var(--success); font-weight: 600; }
+.price-up   { color: var(--danger);  font-weight: 600; }
+.price-same { color: var(--muted); }
+
+/* ── Selection counter ─────────────────────────────────────────────────────── */
+.selection-count { font-size: .8rem; color: var(--muted); margin: .5rem 0; }
+
+/* ── Builder layout ────────────────────────────────────────────────────────── */
+.builder-columns {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1rem;
+  align-items: start;
+}
+@media (max-width: 700px) { .builder-columns { grid-template-columns: 1fr; } }
+
+.form-actions { display: flex; justify-content: flex-end; gap: .6rem; margin-top: 1rem; }
+
+/* ── Error / status messages ───────────────────────────────────────────────── */
+.error-message {
+  margin-top: .6rem;
+  padding: .5rem .75rem;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius);
+  color: var(--danger);
+  font-size: .85rem;
+}
+.loading { color: var(--muted); font-style: italic; padding: 1rem 0; }
+
+/* ── Profile list ──────────────────────────────────────────────────────────── */
+.empty-state { padding: 2rem; text-align: center; color: var(--muted); }
+.empty-state button { color: var(--primary); background: none; border: none; cursor: pointer; font-size: 1rem; }
+
+td.scope-cell { max-width: 240px; }
+.scope-line { font-size: .8rem; color: var(--muted); }
+
+/* ── Price lookup ──────────────────────────────────────────────────────────── */
+.lookup-form { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.lookup-form select { min-width: 180px; }
+
+.lookup-result { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.lookup-price { font-size: 1.6rem; font-weight: 700; margin-bottom: .5rem; }
+.lookup-price .profile-name { font-size: .9rem; font-weight: 400; color: var(--muted); }
+.explanation { font-size: .85rem; color: var(--muted); margin-bottom: .75rem; line-height: 1.5; }
+.matched-list { list-style: none; display: flex; flex-direction: column; gap: .3rem; }
+.matched-list li { font-size: .85rem; display: flex; gap: .4rem; align-items: baseline; }
+.winner-badge { color: var(--success); font-weight: 700; }
+.loser-badge  { color: var(--muted); }
+
+/* ── Adjustment specificity hint ───────────────────────────────────────────── */
+.specificity-hint { font-size: .75rem; color: var(--muted); margin-top: .5rem; font-style: italic; }
