@@ -121,6 +121,50 @@ Profiles are ranked using this precedence order:
 
 This means the resolver prefers the most targeted business rule. For example, in the seeded Bondi Cellars scenario, the custom `$95` price for Bondi Cellars on Koyama Brut wins over broader group discounts because it targets the exact customer and exact product.
 
+## Trade-offs
+
+This implementation intentionally keeps the architecture small and easy to inspect for an interview challenge. That makes the pricing logic clear, but it also comes with trade-offs.
+
+- **In-memory storage is simple but not persistent.** Profiles are stored in `Map`s and reset when the backend restarts. This is good for a focused coding challenge, but production would need a database, migrations, backups, and concurrency-safe writes.
+
+- **The resolver favors clarity over configurability.** The winning strategy is hard-coded as a specificity tuple, which makes it predictable and easy to test. The trade-off is that changing precedence rules would require code changes rather than admin configuration.
+
+- **Specificity can override priority.** Priority only matters after customer, product, and adjustment specificity are tied. This prevents broad high-priority rules from accidentally beating targeted rules, but it means users cannot use priority to override every other rule.
+
+- **Frontend and backend types are duplicated.** The frontend mirrors the backend domain types manually. This keeps the repo lightweight, but a larger system would likely share generated types from OpenAPI or a shared package to avoid drift.
+
+- **The frontend keeps state local.** React state lives in pages and components instead of a global store. This is simpler for two main views, but a bigger app might need React Router, query caching, optimistic updates, or centralized state.
+
+- **Product filter profiles and UI-created profiles differ.** Seeded profiles can use dynamic `FILTER` rules, while the UI saves selected products as explicit `PRODUCT_IDS`. This makes the builder straightforward, but editing a seeded filter profile converts it into a fixed product snapshot.
+
+- **Pricing math uses JavaScript numbers.** This is acceptable for the small sample data and keeps the implementation readable. For production-grade money handling, integer cents or a decimal library would be safer.
+
+- **Authentication and authorization are out of scope.** The API is open locally and assumes a trusted user. A real supplier portal would need login, roles, audit history, and protection around profile changes.
+
+## What I Would Do Next
+
+If this were moving beyond an interview implementation, I would focus on making the system persistent, safer, and easier to operate.
+
+- **Add a real database.** Move products, customers, groups, and pricing profiles into Postgres or MongoDB, with migrations or schema validation and proper indexes for customer/product lookup.
+
+- **Use integer cents for money.** Store prices as cents instead of floating-point dollars to avoid rounding edge cases as the catalogue and pricing rules grow.
+
+- **Share API types automatically.** Generate frontend types from the OpenAPI spec, or move shared contracts into a package, so backend and frontend shapes cannot drift.
+
+- **Improve profile conflict visibility.** Show users which existing profiles overlap while they are creating a new rule, including which one would currently win and why.
+
+- **Support dynamic filter editing in the UI.** Let users create and edit `FILTER` based profiles directly, instead of always saving selected products as `PRODUCT_IDS`.
+
+- **Add authentication and audit logs.** Track who created, updated, or deleted profiles, and protect pricing changes behind user roles.
+
+- **Expand test coverage around the API.** Add request-level tests for validation failures, profile CRUD, preview responses, and resolver endpoint behavior.
+
+- **Add deployment configuration.** Provide production-ready environment variables, build scripts, health checks, and a simple deployment target for the frontend and backend.
+
+- **Improve frontend data handling.** Add route-based navigation, loading states per action, query caching, and better empty/error states as the UI grows.
+
+- **Make precedence configurable if needed.** Keep the current deterministic strategy as the default, but consider admin-configurable precedence only if real business rules require it.
+
 ## Running Locally
 
 Install dependencies for both apps:
